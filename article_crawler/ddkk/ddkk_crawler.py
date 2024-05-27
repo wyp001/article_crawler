@@ -4,16 +4,16 @@ from bs4 import BeautifulSoup
 from article_crawler.article_crawler import ArticleCrawler
 
 
-class CSDNCrawler(ArticleCrawler):
-    def __init__(self, url, output_folder, tag='div', class_='htmledit_views', id='content_views'):
+class DdkkCrawler(ArticleCrawler):
+    def __init__(self, url, output_folder, tag="main", class_='main-content', id=''):
         super().__init__(url=url, output_folder=output_folder, tag=tag, class_=class_, id=id)
 
     def parse_detail(self, response):
         html = response.text
         selector = parsel.Selector(html)
-        title = selector.css('#articleContentId::text').get()
+        title = selector.xpath("//h1[@class='pb-1 fw-bold']/text()").get()
         soup = BeautifulSoup(html, 'lxml')
-        content = soup.find(self.tag, id=self.id, class_=self.class_)
+        content = soup.find(self.tag, class_=self.class_)
         html = self.html_str.format(article=content)
         self.write_content(html, title)
 

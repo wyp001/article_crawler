@@ -1,4 +1,5 @@
 from article_crawler.csdn.csdn_crawler import CSDNCrawler
+from article_crawler.ddkk.ddkk_crawler import DdkkCrawler
 from article_crawler.jianshu.jianshu_crawler import JianshuCrawler
 from article_crawler.juejin.juejin_crawler import JuejinCrawler
 from article_crawler.zhihu.zhihu_crawler import ZhihuCrawler
@@ -10,6 +11,7 @@ version = '0.0.1'
 usage = "python3 -m article_crawler -u [url] -t [type] -o [output_folder] -c [class_] -i [id]"
 
 class_dic = {
+    "ddkk": DdkkCrawler,
     "csdn": CSDNCrawler,
     "jianshu": JianshuCrawler,
     "juejin": JuejinCrawler,
@@ -31,7 +33,7 @@ def main():
     if type == "" and website_tag == "" and class_ == "" and id == "":
         parser.error("'type', 'website_tag', 'class_', 'id' cannot be empty at the same time.")
     if type != '':
-        if type not in ["csdn", "juejin", "zhihu", "jianshu"]:
+        if type not in ["ddkk", "csdn", "juejin", "zhihu", "jianshu"]:
             parser.error(
                 "The current article type is not supported, you need to specify 'class_' or 'id' to locate the position of the article.")
         crawler = class_dic[type](url=url, output_folder=output_folder)
